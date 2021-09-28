@@ -37,6 +37,7 @@
     "glob": "^7.1.7",
     "glob-promise": "^4.2.0",
     "highlight.js": "^11.2.0",
+    "isbinaryfile": "^4.0.8",
     "pdfjs": "^2.4.6",
     "pretty-bytes": "^5.6.0",
     "puppeteer": "^10.2.0"

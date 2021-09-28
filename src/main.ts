@@ -5,6 +5,7 @@ import fs from "fs/promises";
 import glob from "glob-promise";
 import hljs from "highlight.js";
 import http from "http";
+import { isBinaryFileSync } from "isbinaryfile";
 import path from "path";
 import pdf from "pdfjs";
 import prettyBytes from "pretty-bytes";
@@ -208,9 +209,11 @@ async function main() {
 
   const inputs: InputFolder[] = await Promise.all(
     inputDirs.map(async (inputDir) => {
-      const files = await glob(path.join(INPUT_DIR, inputDir, "**/*.*")).then((files) =>
-        files.map((file) => toPosix(path.relative(path.join(INPUT_DIR, inputDir), file))),
-      );
+      const files = (
+        await glob(path.join(INPUT_DIR, inputDir, "**/*.*")).then((files) =>
+          files.map((file) => toPosix(path.relative(path.join(INPUT_DIR, inputDir), file))),
+        )
+      ).filter((file) => !isBinaryFileSync(path.join(INPUT_DIR, inputDir, file)));
 
       return {
         name: inputDir,
